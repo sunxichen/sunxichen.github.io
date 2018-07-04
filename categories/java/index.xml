@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on Sun Xichen&#39;s site</title>
+    <link>https://sunxichen.github.io/categories/java/</link>
+    <description>Recent content in Java on Sun Xichen&#39;s site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 10 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://sunxichen.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Exception and Errors and Assertions</title>
+      <link>https://sunxichen.github.io/posts/exception-and-errors-and-assertions/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/exception-and-errors-and-assertions/</guid>
+      <description>There are some typical exceptions in java such as StackOverflowError ArithmeticException ArrayIndexOutOfBoundsException OutOfMemoryError and NullPointerException. You can also create ur own exceptions. The simplest is a RuntimeException that terminates execution of the program and prints an error message. throw new RuntimeException(“Error message here.”);
+Attention:throws and throw.
+Assertions:
+An assertion is a boolean expression (or a Boolean function) that u are affirming is true at that point in the program. If the expression is false, the program will terminate and report an error message.</description>
+    </item>
+    
+  </channel>
+</rss>

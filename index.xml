@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sun Xichen&#39;s site</title>
+    <link>https://sunxichen.github.io/</link>
+    <description>Recent content on Sun Xichen&#39;s site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 30 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://sunxichen.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Searching</title>
+      <link>https://sunxichen.github.io/posts/searching/</link>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/searching/</guid>
+      <description>前言 我们用术语Symbol Table来描述我们可以通过specifying a key 来获得我们想要存储的信息(value)的一种抽象机制。
+Symbol tables有时又可以称作dictionaries,也可以被称作indices. 我们将在Searching的应用一节中更深入得讨论两者。有三种典型的数据结构可以实现高效地symbol tables: Binary search trees, Red-Black trees, and hash tables.
+Definition: A symbol table is a data structure for key-value pairs that supports two operations:insert(put) a new pair into the table and search for (get) the value associated with a given key.
+API
+对于实现symbol tables我们接受下面的实现准则，来使我们的代码连续，精炼且有效:
+Generics. 对于symbol tables，我们强调key和value扮演的不同角色。在搜索中，我们准确地区分key和value的类型。而不是像在Priority queue中，将keys隐含得表达在item中。其中我们还将考虑keys是Comparable(Sorting中介绍的Interface)的拓展情形。
+Duplicate keys.
+ 每个key只有一个value与之对应（table中没有重复的keys) 当client向表中put(insert)一对已经存在的key-value对时，(key已经存在)，新的value将取代旧的那一个。  Null keys.Keys must not be null.</description>
+    </item>
+    
+    <item>
+      <title>Arithmetic Expression Evaluation</title>
+      <link>https://sunxichen.github.io/posts/arithmetic-expression-evaluation/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/arithmetic-expression-evaluation/</guid>
+      <description>How java do this calculation?: ( 1 + ( ( 2 + 3 ) * ( 4 * 5 ) ) )
+An arithmetic expression is either a number, or a left parentheses followed by an arithmetic expression followed by an operator followed by another arithmetic expression followed by right parenthesis.
+Dijkstra’s Two-Stack Algorithm for Expression Evaluation
+ Push operands onto the operand stack.
+ Push operators onto the operator stack.</description>
+    </item>
+    
+    <item>
+      <title>Circular Rotation</title>
+      <link>https://sunxichen.github.io/posts/circular-rotation/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/circular-rotation/</guid>
+      <description>A string s is a circular rotation of a string t if it matches when the characters are circularly shifted by any number of positions; e.g., ACTGACG is a circular shift of TGACGAC, and vice versa. Detecting this condition is important in the study of genomic sequences. Write a program that checks whether two given strings s and t are circular shifts of one another. Hints: The solution is a one-liner with indexOf(), length(), and sting concatenation(串联).</description>
+    </item>
+    
+    <item>
+      <title>Exception and Errors and Assertions</title>
+      <link>https://sunxichen.github.io/posts/exception-and-errors-and-assertions/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/exception-and-errors-and-assertions/</guid>
+      <description>There are some typical exceptions in java such as StackOverflowError ArithmeticException ArrayIndexOutOfBoundsException OutOfMemoryError and NullPointerException. You can also create ur own exceptions. The simplest is a RuntimeException that terminates execution of the program and prints an error message. throw new RuntimeException(“Error message here.”);
+Attention:throws and throw.
+Assertions:
+An assertion is a boolean expression (or a Boolean function) that u are affirming is true at that point in the program. If the expression is false, the program will terminate and report an error message.</description>
+    </item>
+    
+    <item>
+      <title>Infix to postfix</title>
+      <link>https://sunxichen.github.io/posts/infix-to-postfix/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/infix-to-postfix/</guid>
+      <description>后缀表达式，指的是不包含括号，运算符放在两个运算对象的后面，所有的计算按运算符出现的顺序，严格从左向右进行（不再考虑运算符的优先规则）。
+对于一个算数表达式，我们的一般写法是这样的： (3 + 4) * 5 - 6 这是中缀表达式( Infix ) 而后缀表达式( Postfix )是这样的，它将运算符放在操作数的后面，如： 3 4 + 5 * 6 - 可以看出后序表达式中没有括号, 只表达了计算的顺序, 而这个顺序恰好就是计算器中的一般计算顺序。
+前缀表达式( Prefix )即把运算符放在操作数的前面： - * + 3 4 5 6
+Although the operators moved and now appear either before or after their respective operands, the order of the operands stayed exactly the same relative to one another.
+那么具体怎么convert Infix to Postfix and Prefix呢？
+ First, let’s consider uses the notion of a fully parenthesized expression.</description>
+    </item>
+    
+    <item>
+      <title>Josephus Problem</title>
+      <link>https://sunxichen.github.io/posts/josephus-problem/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/josephus-problem/</guid>
+      <description>In the Josephus problem from antiquity, N people are in dire straits and agree to the following strategy to reduce the population. They arrange themselves in a circle (at positions numbered from 0 to N-1) and proceed around the circle, eliminating every Mth person until only one person is left. Legend has it that Josephus figured out where to sit to avoid being eliminated. Write a Queue client Josephus.java that takes M and N from the command line and prints out the order in which people are eliminated (and thus would show Josephus where to sit in the circle).</description>
+    </item>
+    
+    <item>
+      <title>Linked List</title>
+      <link>https://sunxichen.github.io/posts/linked-list/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/linked-list/</guid>
+      <description>When writing code involving linked list, we must always be careful to properly handle the exception cases ( when the linked list is empty, when the list has only one or two nodes ) and the boundary cases ( dealing with the first or last items ).
+Reverse a Linked List Write a function that takes the head Node in a linked list as argument and (destructively) reverses the list, returning the head Node in the result.</description>
+    </item>
+    
+    <item>
+      <title>Sorting</title>
+      <link>https://sunxichen.github.io/posts/sorting/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/sorting/</guid>
+      <description>Sorting cost model
+在研究排序算法时，我们计算compares 和 exchanges的次数。对于那些没有exchanges的排序算法，我们统计array accesses.
+ Selection sort public class Selection{ public static void sort(Comparable[] a){ int N = a.length for(int i=0;i&amp;lt;N;i++){ int min = i; for(int j = i+1; j&amp;lt;N;j++){ if(less(a[j],a[i])) min = j; exch(a, i, min); } } } } 算法思想： 首先，找到数组中最小的item, 然后让他与数组第一个元素交换。接下来，找到下一个最小的item然后让它与第二个元素交换……
+Selection sort 并没有利用数组的原始order. 他没有有关下次排序时最小item可能的位置的信息。所以一个任意顺序的数组与一个已经排好序的或者一个item全部相等的数组在用selection sort时的performance相同。但是selection sort 的exchange (data movement)是linear的。这是其他sort算法所没有的。
+Insertion sort public class Insertion{ public static void sort(Comparable[] a){ int N = a.</description>
+    </item>
+    
+    <item>
+      <title>Test</title>
+      <link>https://sunxichen.github.io/posts/test/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/test/</guid>
+      <description>Test</description>
+    </item>
+    
+    <item>
+      <title>十进制向各进制的转换</title>
+      <link>https://sunxichen.github.io/posts/%E5%8D%81%E8%BF%9B%E5%88%B6%E5%90%91%E5%90%84%E8%BF%9B%E5%88%B6%E7%9A%84%E8%BD%AC%E6%8D%A2/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/%E5%8D%81%E8%BF%9B%E5%88%B6%E5%90%91%E5%90%84%E8%BF%9B%E5%88%B6%E7%9A%84%E8%BD%AC%E6%8D%A2/</guid>
+      <description>public class convert{ Stcak&amp;lt;Integer&amp;gt; stack=new Stack&amp;lt;Integer&amp;gt;(); int c;//c是进制  while(N&amp;gt;0){ stack.push(N%c);//注意十六进制的表达  N=N/c; } for (int i : stack) StdOut.print(i); }</description>
+    </item>
+    
+    <item>
+      <title>改进的斐波那契数列算法</title>
+      <link>https://sunxichen.github.io/posts/%E6%94%B9%E8%BF%9B%E7%9A%84%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/%E6%94%B9%E8%BF%9B%E7%9A%84%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E7%AE%97%E6%B3%95/</guid>
+      <description>从第四位开始，可以证明到菲波那切数列以1.5为底成指数式的增长，同时程序的运行时间也以指数式增长，所以当到达40以后，运算量显著增长。
+本质是因为程序当中存在大量的计算冗余和浪费： 比如F（n）=F(n-1)+F(n-2) 这个表达式； 计算机在运算n-1的时候就隐含了n-2的值了，但是在运算完就把这个值给舍弃了，所以没有在运算F（n-2）的时候又重新算了一遍，造成了时间上的大量浪费。
+所以可以这样考虑改进该算法，将每一步的计算结果用一个数组保留起来，接着计算新值时直接使用计算后的结果，用时便会减少。 改进前：
+class test{ public static long F(int N){ if(N==0) return 0; if(N==1) return 1; return F(N-1)+F(N-2); } public static void main(String[] args) { for (int n=0;n&amp;lt;100;n++) StdOut.println(n+&amp;#34; &amp;#34;+F(n)); } } 改进后：
+class test{ public static long[] F(int N){ long[] fibonacci=new long[N+1]; fibonacci[0]=0; fibonacci[1]=1; if(N==0||N==1){ return fibonacci; } for(int i=2;i&amp;lt;=N;i++){ fibonacci[i]=fibonacci[i-1]+fibonacci[i-2]; } return fibonacci; } public static void main(String[] args) { long[] result=F(99); for(int i=0;i&amp;lt;result.length;i++) StdOut.</description>
+    </item>
+    
+    <item>
+      <title>数论中关于最大公因子和同余的知识</title>
+      <link>https://sunxichen.github.io/posts/%E6%95%B0%E8%AE%BA%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%9C%80%E5%A4%A7%E5%85%AC%E5%9B%A0%E5%AD%90%E5%92%8C%E5%90%8C%E4%BD%99%E7%9A%84%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/%E6%95%B0%E8%AE%BA%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%9C%80%E5%A4%A7%E5%85%AC%E5%9B%A0%E5%AD%90%E5%92%8C%E5%90%8C%E4%BD%99%E7%9A%84%E7%9F%A5%E8%AF%86/</guid>
+      <description>两个不同时为零的整数a,b的最大公因子就是指能同时整除a,b的最大正整数。记为(a,b)或gcd(a,b)。
+ 如果两个整数a,b 有(a,b)=1，则a,b是互素的。
+ a,b是整数，且(a,b)=d，那么(a/ d, b/d)=1.
+ 令a,b,c是整数，那么(a+cb,b)=(a,b).
+ 如果a,b是整数，那么它们的线性组合具有形式ma+nb,其中m,n都是整数。
+   两个不全为零的整数 a, b 的最大公因子是 a, b 线性组合中最小的正整数。   如果a,b是不全为零的整数，那么正整数d是a,b的最大公因子当且仅当 （1）d|a且d|b (2) 如果c是整数且c|a,c|b那么c|d  10.
+ 两个整数a、b，若它们除以整数m所得的余数相等，则称a与b对于模m同余或a同余于b模m 记作 a≡b (mod m) 读作 a同余于b模m，或读作a与b对模m同余。 例如 26≡2 (mod 12)   【定义】设m是大于1的正整数，a、b是整数,如果(a-b)|m(m整除a-b)，则称a与b关于模m同余,记作a≡b(mod m),读作a与b对模m同余.
+显然,有如下事实 (1)若a≡0(mod m),则a|m; (2)a≡b(mod m)等价于a与b分别用m去除，余数相同。
+ 12. &amp;gt;1 反身性 a ≡ a ( mod m) &amp;gt; &amp;gt;2 对称性 若a ≡ b ( mod m)，则b ≡ a ( mod m) &amp;gt; &amp;gt;3 传递性 若a ≡ b ( mod m)，b ≡ c ( mod m)，则a ≡ c ( mod m) &amp;gt; &amp;gt;4 同余式相加 若a ≡ b ( mod m)，c ≡ d ( mod m)，则a ± c ≡ b ± d ( mod m) &amp;gt; &amp;gt;5 同余式相乘 若a ≡ b ( mod m)，c ≡ d( mod m)，则ac ≡ bd ( mod m)</description>
+    </item>
+    
+    <item>
+      <title>栈序列可生成性问题</title>
+      <link>https://sunxichen.github.io/posts/%E6%A0%88%E5%BA%8F%E5%88%97%E5%8F%AF%E7%94%9F%E6%88%90%E8%A1%8C%E6%80%A7%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/%E6%A0%88%E5%BA%8F%E5%88%97%E5%8F%AF%E7%94%9F%E6%88%90%E8%A1%8C%E6%80%A7%E9%97%AE%E9%A2%98/</guid>
+      <description>假定某client按照一系列混合操作栈的push,pop操作。push将0~9按照顺序push.判断一下哪些序列不会出现？
+a. 4 3 2 1 0 9 8 7 6 5 b. 4 6 9 7 5 3 2 9 0 1 c. 2 6 8 7 5 3 2 9 0 1 d. 4 3 2 1 0 5 6 7 8 9 e. 1 2 3 4 5 6 9 8 7 0 f. 0 4 6 5 3 8 1 7 2 9 g. 1 4 7 9 8 6 5 3 0 2 h.</description>
+    </item>
+    
+    <item>
+      <title>欧几里得算法及其扩展算法</title>
+      <link>https://sunxichen.github.io/posts/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/</guid>
+      <description>欧几里德算法是用来求两个正整数最大公约数的算法。是由古希腊数学家欧几里德在其著作《The Elements》中最早描述了这种算法,所以被命名为欧几里德算法。 扩展欧几里德算法可用于RSA加密等领域。 假如需要求 1997 和 615 两个正整数的最大公约数,用欧几里德算法，是这样进行的：
+当被加的数为 0 时，就得出了 1997 和 615 的最大公约数 1。
+gcd(a,b)=gcd(b,a%b)
+public static int gcd(int a, int b){ if(a%b==0)//或者（b==0) return a;  return b; else return gcd(b,a%b); } 用扩展的欧几里得算法知识求解了线性组合的一个组合(x,y)</description>
+    </item>
+    
+    <item>
+      <title>Union-find</title>
+      <link>https://sunxichen.github.io/posts/union-find/</link>
+      <pubDate>Sun, 08 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/union-find/</guid>
+      <description>Union-find 问题引入：输入是一系列整型数字对。(p,q) 意思为p与q相连。它具有如下性质:
+ 反身性( Reflexive )：p与p自己也相连。 对称性( Symmetric )：p与q相连，同时q也与p相连。 传递性( Transitive )：p与q相连，q与r相连，那么p与r相连。  当两个对象相连时，则他们就属于同一类( equivalence class )。我们的目标是区分出来没有关系的那些数值对( pairs )
+To achieve the desired goal, we need to devise a data structure that can remember sufficient information about the pairs it has seen to be able to decide whether or not a new pair of objects is connected. This task is called dynamic connectivity.
+Dynamic connectivity可以有一下的几种用途：
+ Networks: 这些实数对可以代表一些在大型网络中相连的计算机，所以我们可以通过程序来决定是否需要架设新的线路来实现p和q之间的信息交流（如果p和q相连则不用架设新的线路）。或者，这些实数对代表在社交网络中的人，(p,q)代表着friendship. Mathematical sets: 在更抽象的层面上，我们可以将这些数值归于数学集合。当我们处理(p,q)时，我们实际上是在考虑它们是否属于同一集合里。如果p, q不在同一集合，那么我们就将两个集合合并，使它们属于同一集合。  We refer to the objects as sites, the pairs as connections, and the equivalence classes as connected components Union-find API</description>
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>https://sunxichen.github.io/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/about/</guid>
+      <description> 我还没想好写啥 :) blah blah blah </description>
+    </item>
+    
+  </channel>
+</rss>

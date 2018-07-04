@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data Structer on Sun Xichen&#39;s site</title>
+    <link>https://sunxichen.github.io/tags/data-structer/</link>
+    <description>Recent content in Data Structer on Sun Xichen&#39;s site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 10 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://sunxichen.github.io/tags/data-structer/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linked List</title>
+      <link>https://sunxichen.github.io/posts/linked-list/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/linked-list/</guid>
+      <description>When writing code involving linked list, we must always be careful to properly handle the exception cases ( when the linked list is empty, when the list has only one or two nodes ) and the boundary cases ( dealing with the first or last items ).
+Reverse a Linked List Write a function that takes the head Node in a linked list as argument and (destructively) reverses the list, returning the head Node in the result.</description>
+    </item>
+    
+  </channel>
+</rss>

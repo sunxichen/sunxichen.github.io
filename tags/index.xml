@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Sun Xichen&#39;s site</title>
+    <link>https://sunxichen.github.io/tags/</link>
+    <description>Recent content in Tags on Sun Xichen&#39;s site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 30 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://sunxichen.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Algorithms</title>
+      <link>https://sunxichen.github.io/tags/algorithms/</link>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/tags/algorithms/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Structer</title>
+      <link>https://sunxichen.github.io/tags/data-structer/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/tags/data-structer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Structure</title>
+      <link>https://sunxichen.github.io/tags/data-structure/</link>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/tags/data-structure/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>https://sunxichen.github.io/tags/java/</link>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Math</title>
+      <link>https://sunxichen.github.io/tags/math/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/tags/math/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Number Theory</title>
+      <link>https://sunxichen.github.io/tags/number-theory/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/tags/number-theory/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

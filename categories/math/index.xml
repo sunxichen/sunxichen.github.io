@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Math on Sun Xichen&#39;s site</title>
+    <link>https://sunxichen.github.io/categories/math/</link>
+    <description>Recent content in Math on Sun Xichen&#39;s site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 10 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://sunxichen.github.io/categories/math/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>数论中关于最大公因子和同余的知识</title>
+      <link>https://sunxichen.github.io/posts/%E6%95%B0%E8%AE%BA%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%9C%80%E5%A4%A7%E5%85%AC%E5%9B%A0%E5%AD%90%E5%92%8C%E5%90%8C%E4%BD%99%E7%9A%84%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://sunxichen.github.io/posts/%E6%95%B0%E8%AE%BA%E4%B8%AD%E5%85%B3%E4%BA%8E%E6%9C%80%E5%A4%A7%E5%85%AC%E5%9B%A0%E5%AD%90%E5%92%8C%E5%90%8C%E4%BD%99%E7%9A%84%E7%9F%A5%E8%AF%86/</guid>
+      <description>两个不同时为零的整数a,b的最大公因子就是指能同时整除a,b的最大正整数。记为(a,b)或gcd(a,b)。
+ 如果两个整数a,b 有(a,b)=1，则a,b是互素的。
+ a,b是整数，且(a,b)=d，那么(a/ d, b/d)=1.
+ 令a,b,c是整数，那么(a+cb,b)=(a,b).
+ 如果a,b是整数，那么它们的线性组合具有形式ma+nb,其中m,n都是整数。
+   两个不全为零的整数 a, b 的最大公因子是 a, b 线性组合中最小的正整数。   如果a,b是不全为零的整数，那么正整数d是a,b的最大公因子当且仅当 （1）d|a且d|b (2) 如果c是整数且c|a,c|b那么c|d  10.
+ 两个整数a、b，若它们除以整数m所得的余数相等，则称a与b对于模m同余或a同余于b模m 记作 a≡b (mod m) 读作 a同余于b模m，或读作a与b对模m同余。 例如 26≡2 (mod 12)   【定义】设m是大于1的正整数，a、b是整数,如果(a-b)|m(m整除a-b)，则称a与b关于模m同余,记作a≡b(mod m),读作a与b对模m同余.
+显然,有如下事实 (1)若a≡0(mod m),则a|m; (2)a≡b(mod m)等价于a与b分别用m去除，余数相同。
+ 12. &amp;gt;1 反身性 a ≡ a ( mod m) &amp;gt; &amp;gt;2 对称性 若a ≡ b ( mod m)，则b ≡ a ( mod m) &amp;gt; &amp;gt;3 传递性 若a ≡ b ( mod m)，b ≡ c ( mod m)，则a ≡ c ( mod m) &amp;gt; &amp;gt;4 同余式相加 若a ≡ b ( mod m)，c ≡ d ( mod m)，则a ± c ≡ b ± d ( mod m) &amp;gt; &amp;gt;5 同余式相乘 若a ≡ b ( mod m)，c ≡ d( mod m)，则ac ≡ bd ( mod m)</description>
+    </item>
+    
+  </channel>
+</rss>
