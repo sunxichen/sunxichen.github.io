@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Sun Xichen">
+    <meta name="description" content="Sunxichen&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://sunxichen.github.io">
+    <title>
+  Circular Rotation · Sun Xichen&#39;s site
+</title>
+
+    <link rel="canonical" href="https://sunxichen.github.io/posts/circular-rotation/">
+
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono:400,700">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="https://sunxichen.github.io/css/style.min.css">
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://sunxichen.github.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sunxichen.github.io/images/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.42.2" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://sunxichen.github.io">
+      Sun Xichen&#39;s site
+    </a>
+    
+    <ul class="navigation-list  float-right ">
+      
+      <li class="navigation-item">
+        <a class="navigation-link" href="https://sunxichen.github.io/posts/">Blog</a>
+      </li>
+      
+      <li class="navigation-item">
+        <a class="navigation-link" href="https://sunxichen.github.io/about/">About</a>
+      </li>
+      
+    </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+  <article>
+    <header>
+      <h1 class="title">Circular Rotation</h1>
+      <h2 class="date">April 10, 2018</h2>
+
+      
+    </header>
+
+    <blockquote>
+<p>A string <em>s</em> is a <em>circular rotation</em> of a string <em>t</em> if it matches when the characters are <em>circularly shifted</em> by any number of positions; e.g., <strong>ACTGACG</strong> is a circular shift of <strong>TGACGAC</strong>, and vice versa. Detecting this condition is important in the study of genomic sequences. Write a program that checks whether two given strings s and t are circular shifts of one another.
+<em>Hints</em>: The solution is a one-liner with indexOf(), length(), and sting concatenation(串联).</p>
+</blockquote>
+
+<p>回环变位
+有两种思路:</p>
+
+<p><strong>思路一</strong>：
+将字符串s按任意位置拆成左右两个子串，交换位置后再拼接起来与t比较，相等即是回环变位。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">test</span><span style="color:#f92672">{</span>
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+     String s<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ACTGACG&#34;</span><span style="color:#f92672">;</span>
+     String t<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;TGACGAC&#34;</span><span style="color:#f92672">;</span>
+
+     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isCircular</span><span style="color:#f92672">(</span>String s<span style="color:#f92672">,</span>String t<span style="color:#f92672">){</span>
+       <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()!=</span>t<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">())</span>
+         <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">else</span><span style="color:#f92672">{</span>
+         <span style="color:#66d9ef">int</span> length<span style="color:#f92672">=</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()</span>
+         <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>1<span style="color:#f92672">;</span>i<span style="color:#f92672">&lt;=</span>length<span style="color:#f92672">;</span>i<span style="color:#f92672">++){</span>
+           String left<span style="color:#f92672">=</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">substring</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span>i<span style="color:#f92672">);</span>
+           String right<span style="color:#f92672">=</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">substring</span><span style="color:#f92672">(</span>i<span style="color:#f92672">,</span>length<span style="color:#f92672">);</span>
+           <span style="color:#66d9ef">if</span><span style="color:#f92672">((</span>right<span style="color:#f92672">+</span>left<span style="color:#f92672">).</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>t<span style="color:#f92672">))</span>
+             <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+         <span style="color:#f92672">}</span>
+         <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+       <span style="color:#f92672">}</span>
+     <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
+<p><strong>思路二</strong>：
+将s与自己拼接起来，如果拼接后的字符串包含字符串t，则是回环变位</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+     String s<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ACTGACG&#34;</span><span style="color:#f92672">;</span>
+     String t<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;TGACGAC&#34;</span><span style="color:#f92672">;</span>
+     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isCircular</span><span style="color:#f92672">(</span>String s<span style="color:#f92672">,</span>String t<span style="color:#f92672">){</span>
+       <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()==</span>t<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">()&amp;&amp;</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">concat</span><span style="color:#f92672">(</span>s<span style="color:#f92672">).</span><span style="color:#a6e22e">indexOf</span><span style="color:#f92672">(</span>t<span style="color:#f92672">)&gt;=</span>0<span style="color:#f92672">)</span><span style="color:#75715e">//(s+s).indexOf(t)
+</span><span style="color:#75715e"></span>         <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">else</span>
+         <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+     <span style="color:#f92672">}</span></code></pre></div>
+<p>另外<strong>求一个字符串的逆序的递归方法</strong>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">reverse</span><span style="color:#f92672">(</span>String s<span style="color:#f92672">){</span>
+       <span style="color:#66d9ef">int</span> N<span style="color:#f92672">=</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">();</span>
+       <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>N<span style="color:#f92672">&lt;=</span>1<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> s<span style="color:#f92672">;</span>
+       String a<span style="color:#f92672">=</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">substring</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span>N<span style="color:#f92672">/</span>2<span style="color:#f92672">);</span>
+       String b<span style="color:#f92672">=</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">substring</span><span style="color:#f92672">(</span>N<span style="color:#f92672">/</span>2<span style="color:#f92672">,</span>N<span style="color:#f92672">);</span>
+       <span style="color:#66d9ef">return</span> reverse<span style="color:#f92672">(</span>b<span style="color:#f92672">)+</span>reverse<span style="color:#f92672">(</span>a<span style="color:#f92672">);</span>
+     <span style="color:#f92672">}</span></code></pre></div>
+<p><img src="https://sunxichen.github.io/images/Circular-Rotation-image/IMG_20171112_200650.jpg" alt="" /></p>
+
+  </article>
+
+  <br/>
+
+  
+  
+</section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+     © 2018    ·  Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>. 
+  </section>
+</footer>
+
+    </main>
+
+    
+
+  </body>
+
+</html>

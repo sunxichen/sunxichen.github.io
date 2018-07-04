@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Sun Xichen">
+    <meta name="description" content="Sunxichen&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://sunxichen.github.io">
+    <title>
+  Arithmetic Expression Evaluation · Sun Xichen&#39;s site
+</title>
+
+    <link rel="canonical" href="https://sunxichen.github.io/posts/arithmetic-expression-evaluation/">
+
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono:400,700">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="https://sunxichen.github.io/css/style.min.css">
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://sunxichen.github.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sunxichen.github.io/images/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.42.2" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://sunxichen.github.io">
+      Sun Xichen&#39;s site
+    </a>
+    
+    <ul class="navigation-list  float-right ">
+      
+      <li class="navigation-item">
+        <a class="navigation-link" href="https://sunxichen.github.io/posts/">Blog</a>
+      </li>
+      
+      <li class="navigation-item">
+        <a class="navigation-link" href="https://sunxichen.github.io/about/">About</a>
+      </li>
+      
+    </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+  <article>
+    <header>
+      <h1 class="title">Arithmetic Expression Evaluation</h1>
+      <h2 class="date">April 10, 2018</h2>
+
+      
+    </header>
+
+    <p>How java do this  calculation?:
+<code>( 1 + ( ( 2 + 3 ) * ( 4 * 5 ) ) )</code></p>
+
+<p>An <em>arithmetic expression</em> is either a number, or a left parentheses followed by an  arithmetic expression followed by an operator followed by another arithmetic expression followed by right parenthesis.</p>
+
+<p><strong>Dijkstra’s Two-Stack Algorithm for Expression Evaluation</strong></p>
+
+<ul>
+<li><p>Push <em>operands</em> onto the <em>operand stack.</em></p></li>
+
+<li><p>Push <em>operators</em> onto the <em>operator stack.</em></p></li>
+
+<li><p>Ignore <em>left</em> parentheses.</p></li>
+
+<li><p>On encountering a <em>right</em> parentheses, pop an operator, pop the requisite number of operands, and push onto the operand stack the result of applying that operator to those operands.
+After the final right parenthesis has been processed, there is one value on the stack, which is the value of the expression.</p></li>
+</ul>
+
+<p>Any time the algorithm encounters a subexpression consisting of two operands separated by an operator, all surrounded by parentheses, it leaves the result of performing that operation on those operands on the operand stack, so we can think of replacing the subexpression by the value to get an expression that would yield the same result.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">( 1 + ( ( 2 + 3 ) * ( 4 * 5 ) ) )
+( 1 + ( 5 * ( 4 * 5 ) ) )
+( 1 + ( 5 * 20 ) )
+( 1 + 100 )
+101</pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.util.Arrays<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> edu.princeton.cs.algs4.*<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Evaluate</span><span style="color:#f92672">{</span>
+
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+     Stack<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> ops<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Stack<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;();</span>
+     Stack<span style="color:#f92672">&lt;</span>Double<span style="color:#f92672">&gt;</span> vals<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Stack<span style="color:#f92672">&lt;</span>Double<span style="color:#f92672">&gt;();</span>
+     <span style="color:#66d9ef">while</span><span style="color:#f92672">(!</span>StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">()){</span>
+     String s <span style="color:#f92672">=</span> StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">readString</span><span style="color:#f92672">();</span><span style="color:#75715e">//因为每个字符之间是whitespace所以每个字符是一个字符串
+</span><span style="color:#75715e"></span>     <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;(&#34;</span><span style="color:#f92672">));</span>
+     <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;+&#34;</span><span style="color:#f92672">)</span> ops<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+     <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-&#34;</span><span style="color:#f92672">)</span> ops<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+     <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;*&#34;</span><span style="color:#f92672">)</span> ops<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+     <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">)</span> ops<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+     <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;sqrt&#34;</span><span style="color:#f92672">)</span> ops<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+     <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;)&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       String op<span style="color:#f92672">=</span>ops<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">();</span>
+       <span style="color:#66d9ef">double</span> val<span style="color:#f92672">=</span>vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">();</span>
+       <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>op<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;+&#34;</span><span style="color:#f92672">))</span>
+         val<span style="color:#f92672">=</span>vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">()+</span>val<span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>op<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-&#34;</span><span style="color:#f92672">))</span>
+         val<span style="color:#f92672">=</span>vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">()-</span>val<span style="color:#f92672">;</span><span style="color:#75715e">//顺序不能反
+</span><span style="color:#75715e"></span>       <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>op<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;*&#34;</span><span style="color:#f92672">))</span>
+         val<span style="color:#f92672">=</span>vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">()*</span>val<span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>op<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">))</span>
+         val<span style="color:#f92672">=</span>vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">()/</span>val<span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>op<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;sqrt&#34;</span><span style="color:#f92672">))</span>
+         val<span style="color:#f92672">=</span>Math<span style="color:#f92672">.</span><span style="color:#a6e22e">aqrt</span><span style="color:#f92672">(</span>val<span style="color:#f92672">);</span>
+       vals<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>val<span style="color:#f92672">);</span>
+     <span style="color:#f92672">}</span>
+     <span style="color:#66d9ef">else</span> vals<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>parseDouble<span style="color:#f92672">(</span>s<span style="color:#f92672">));</span>
+   <span style="color:#f92672">}</span>
+   StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">());</span>
+   <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
+  </article>
+
+  <br/>
+
+  
+  
+</section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+     © 2018    ·  Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>. 
+  </section>
+</footer>
+
+    </main>
+
+    
+
+  </body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Sun Xichen">
+    <meta name="description" content="Sunxichen&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://sunxichen.github.io">
+    <title>
+  Josephus Problem · Sun Xichen&#39;s site
+</title>
+
+    <link rel="canonical" href="https://sunxichen.github.io/posts/josephus-problem/">
+
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono:400,700">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="https://sunxichen.github.io/css/style.min.css">
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://sunxichen.github.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sunxichen.github.io/images/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.42.2" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://sunxichen.github.io">
+      Sun Xichen&#39;s site
+    </a>
+    
+    <ul class="navigation-list  float-right ">
+      
+      <li class="navigation-item">
+        <a class="navigation-link" href="https://sunxichen.github.io/posts/">Blog</a>
+      </li>
+      
+      <li class="navigation-item">
+        <a class="navigation-link" href="https://sunxichen.github.io/about/">About</a>
+      </li>
+      
+    </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+  <article>
+    <header>
+      <h1 class="title">Josephus Problem</h1>
+      <h2 class="date">April 10, 2018</h2>
+
+      
+    </header>
+
+    
+
+<p>In the Josephus problem from antiquity, N people are in dire straits and agree to the following strategy to reduce the population. They arrange themselves in a circle (at positions numbered from 0 to N-1) and proceed around the circle, eliminating every Mth person until only one person is left. Legend has it that Josephus figured out where to sit to avoid being eliminated. Write a Queue client Josephus.java that takes M and N from the command line and prints out the order in which people are eliminated (and thus would show Josephus where to sit in the circle).</p>
+
+<h2 id="queue-solution">Queue Solution:</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> edu.princeton.cs.algs4.*<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Josephus</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		Queue<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> queue <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Queue<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;();</span>
+		<span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">]);</span> <span style="color:#75715e">//接受参数人数N
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>1<span style="color:#f92672">]);</span> <span style="color:#75715e">//接受参数要被处置的第几个人
+</span><span style="color:#75715e"></span>
+		<span style="color:#66d9ef">for</span><span style="color:#f92672">(</span> <span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>i<span style="color:#f92672">&lt;</span>N<span style="color:#f92672">;</span>i<span style="color:#f92672">++)</span>
+			queue<span style="color:#f92672">.</span><span style="color:#a6e22e">enqueue</span><span style="color:#f92672">(</span>i<span style="color:#f92672">);</span> <span style="color:#75715e">//初始化队列
+</span><span style="color:#75715e"></span>
+		<span style="color:#66d9ef">while</span><span style="color:#f92672">(</span> <span style="color:#f92672">!</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">()</span> <span style="color:#f92672">){</span>
+			<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span> <span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>i<span style="color:#f92672">&lt;</span>M<span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>i<span style="color:#f92672">++){</span>
+				queue<span style="color:#f92672">.</span><span style="color:#a6e22e">enqueue</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">dequeue</span><span style="color:#f92672">());</span> <span style="color:#75715e">//skipped persons; re-attach them to the end of queue
+</span><span style="color:#75715e"></span>			<span style="color:#f92672">}</span>
+            StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>queue<span style="color:#f92672">.</span><span style="color:#a6e22e">dequeue</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">//Mth person being executed.
+</span><span style="color:#75715e"></span>		<span style="color:#f92672">}</span>
+		StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">();</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
+<p>在遍历队列的过程中，将已遍历过的元素再放到队列尾部，这样就能形成一个圆。或许涉及到遍历圆的问题都可以这样考虑？👀</p>
+
+<h2 id="recursive-solution">Recursive Solution</h2>
+
+<p>This solution is written for people numbered zero to N-1. The process is iterated until a single person remains. Practicing with examples motivates the general recursive solution. Let us examine P(5, 3) where there are five people and every third person is removed.</p>
+
+<p><img src="https://sunxichen.github.io/images/Josephus-problem/screenshot.png" alt="" /></p>
+
+<p>On the first round of elimination the 2 is removed and the remaining people in 3, 4, 0, 1 are renumbered as 0, 1, 2, and 3. ( Why 3 renumbered as 0? Cause the second round start at 3 ) Note, the new position is related to the old position by the formula:
+<code>(new # + M) mod N = old#</code>
+For example, we have (1 + 3) mod 5 = 4 and (3 + 3) mod 5 = 1 in figure 2.
+On the second round of elimination the new 2 has been eliminated and the people in new numbers 3, 0 and 1 are renumbered from 0 to 2 (Figure 3). <u>Note that N is now 4 since we began this round with only people._ In figure 3 we see that (0 + 3) mod 4 = 3 and (1 + 3) mod 4 = 0. If we continue this pattern the person in the fourth position is the last to remain.</u></p>
+
+<p>From above we have the observed pattern <code>(new # + M) mod N = (old #)</code>
+Notice that <code>(new #)</code> can be represented by P(N-1, M) and <code>(old #)</code>can be represented by P(N, M).
+By substitution into the observed pattern we get the following recursive formula when N ≥ 2;
+<code>(P(N-1, M) + M)mod N = P(N, M)</code>.</p>
+
+<p><u>Thus, the recursive solution is P(N, M) = 0 if N = 1 OR P(N, M) = (P(N-1, M) + M)mod N for N ≥ 2.</u>
+For P(5, 3) we work down the column on the left and then back up the column on the right.
+P(5, 3) = (P(4, 3) + 3) mod 5              which is (0 + 3) mod 5 = 3
+P(4, 3) = (P(3, 3) + 3) mod 4              which is (1 + 3) mod 4 = 0
+P(3, 3) = (P(2, 3) + 3) mod 3              which is (1 + 3) mod 3 = 1
+P(2, 3) = (P(1, 3) + 3) mod 2              which is (0 + 3) mod 2 = 1
+P(1, 3) = 0 since N = 1.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> edu.princeton.cs.algs4.*<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Josephus</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">P</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> n<span style="color:#f92672">,</span><span style="color:#66d9ef">int</span> m<span style="color:#f92672">){</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>n<span style="color:#f92672">==</span>1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+			<span style="color:#66d9ef">return</span> 0<span style="color:#f92672">;</span>
+		<span style="color:#f92672">}</span>
+		<span style="color:#66d9ef">else</span>
+			<span style="color:#66d9ef">return</span> <span style="color:#f92672">((</span>P<span style="color:#f92672">(</span>n<span style="color:#f92672">-</span>1<span style="color:#f92672">,</span>m<span style="color:#f92672">)+</span>m<span style="color:#f92672">)%</span>n<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+	    <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">]);</span>
+		<span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>1<span style="color:#f92672">]);</span>
+		StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>P<span style="color:#f92672">(</span>N<span style="color:#f92672">,</span>M<span style="color:#f92672">));</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
+  </article>
+
+  <br/>
+
+  
+  
+</section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+     © 2018    ·  Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>. 
+  </section>
+</footer>
+
+    </main>
+
+    
+
+  </body>
+
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Sun Xichen">
+    <meta name="description" content="Sunxichen&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://sunxichen.github.io">
+    <title>
+  Infix to postfix · Sun Xichen&#39;s site
+</title>
+
+    <link rel="canonical" href="https://sunxichen.github.io/posts/infix-to-postfix/">
+
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono:400,700">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="https://sunxichen.github.io/css/style.min.css">
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://sunxichen.github.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sunxichen.github.io/images/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.42.2" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://sunxichen.github.io">
+      Sun Xichen&#39;s site
+    </a>
+    
+    <ul class="navigation-list  float-right ">
+      
+      <li class="navigation-item">
+        <a class="navigation-link" href="https://sunxichen.github.io/posts/">Blog</a>
+      </li>
+      
+      <li class="navigation-item">
+        <a class="navigation-link" href="https://sunxichen.github.io/about/">About</a>
+      </li>
+      
+    </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+  <article>
+    <header>
+      <h1 class="title">Infix to postfix</h1>
+      <h2 class="date">April 10, 2018</h2>
+
+      
+    </header>
+
+    
+
+<p>后缀表达式，指的是不包含括号，运算符放在两个运算对象的后面，所有的计算按运算符出现的顺序，严格从左向右进行（不再考虑运算符的优先规则）。</p>
+
+<p>对于一个算数表达式，我们的一般写法是这样的：
+<code>(3 + 4) * 5 - 6</code>
+这是<strong>中缀表达式</strong>( Infix )
+而<strong>后缀表达式</strong>( Postfix )是这样的，它将运算符放在操作数的后面，如：
+<code>3 4 + 5 * 6 -</code>
+可以看出后序表达式中没有括号, 只表达了计算的顺序, 而这个顺序恰好就是计算器中的一般计算顺序。</p>
+
+<p><strong>前缀表达式</strong>( Prefix )即把运算符放在操作数的前面：
+<code>- * + 3 4 5 6</code></p>
+
+<p>Although the operators moved and now appear either before or after their respective operands, <u>the order of the operands stayed exactly the same relative to one another.</u></p>
+
+<p>那么具体怎么convert Infix to Postfix and Prefix呢？</p>
+
+<blockquote>
+<p>First,  let’s consider uses the notion of a <strong>fully parenthesized expression</strong>.
+<code>A + B * C</code> can be rewritten as <code>( A + ( B * C )</code>  to show explicitly that the multiplication has precedence over the addition. On closer observation, however, you can see that <u>each parenthesis pair also denotes the beginning and the end of an operand pair with the corresponding operator in the middle.</u></p>
+
+<p>Look at the <u>right parenthesis</u> in the subexpression (B * C) above. If we were to move the multiplication symbol to that position and remove the matching left parenthesis, giving us B C *, we would in effect have converted the subexpression to <u>postfix notation.</u> If the addition operator were also moved to its corresponding right parenthesis position and the matching left parenthesis were removed, the complete postfix expression would result .</p>
+
+<p><img src="https://sunxichen.github.io/images/Infix-to-Postfix/moveright.png" alt="" /></p>
+
+<p>If we do the same thing but instead of moving the symbol to the position of the right parenthesis, we move it to the <u>left (parenthesis), we get prefix notation. The position of the parenthesis pair is actually a clue to the final position of the enclosed operator.</u></p>
+
+<p>So in order to convert an expression, no matter how complex, to either prefix or postfix notation, <u>fully parenthesize the expression using the order of operations. Then move the enclosed operator to the position of either the left or the right parenthesis depending on whether you want prefix or postfix notation.</u></p>
+
+<p><code>(A + B) * C - (D - E) * (F + G)</code></p>
+
+<p><img src="https://sunxichen.github.io/images/Infix-to-Postfix/complexmove.png" alt="" /></p>
+</blockquote>
+
+<h2 id="general-infix-to-postfix-conversion">General Infix-to-Postfix Conversion</h2>
+
+<blockquote>
+<p>We need to develop an algorithm to convert any infix expression to a postfix expression. To do this we will look closer at the conversion process.</p>
+
+<p>Consider once again the expression <code>A + B * C.</code> As shown above, <code>A B C * +</code> is the postfix equivalent. We have already noted that the operands A, B, and C stay in their relative positions. <u>It is only the operators that change position.</u> Let’s look again at the operators in the infix expression. The first operator that appears <u>from left to right</u> is <code>+</code>. However, in the postfix expression, <code>+</code> is at the end since  <u>the next operator, *, has precedence(优先级） over addition.</u> The order of the operators in the original expression is reversed in the resulting postfix expression.</p>
+
+<p>As we process the expression, <u>the operators have to be saved somewhere since their corresponding right operands are not seen yet. Also, the order of these saved operators may need to be reversed due to their precedence.</u> This is the case with the addition and the multiplication in this example. Since <u>the addition operator comes before the multiplication operator and has lower precedence, it needs to appear after the multiplication operator is used.</u> Because of this reversal of order, it makes sense to consider using a stack to keep the operators until they are needed.</p>
+
+<p>What about <code>(A + B) * C</code>? Recall that <code>A B + C *</code> is the postfix equivalent. Again, processing this infix expression from left to right, we see + first. In this case, when we see <code>*</code>, <code>+</code> has already been placed in the result expression because it has precedence over * by virtue of the parentheses. We can now start to see how the conversion algorithm will work. <u>When we see a left parenthesis, we will save it to denote that another operator of high precedence will be coming. That operator will need to wait until the corresponding right parenthesis appears to denote its position (recall the fully parenthesized technique). When that right parenthesis does appear, the operator can be popped from the stack.</u></p>
+
+<p>As we scan the infix expression from left to right, we will <u>use a stack to keep the operators.</u> This will provide the reversal that we noted in the first example. The top of the stack will always be the most recently saved operator. Whenever we read a new operator, <u>we will need to consider how that operator compares in precedence with the operators, if any, already on the stack.</u></p>
+
+<p>Assume the infix expression is a string of tokens delimited by spaces. The operator tokens are <code>*</code>, <code>/</code> ,<code>+</code>, and <code>-</code>, along with the left and right parentheses, <code>(</code> and <code>)</code>. The operand tokens are the single-character identifiers <code>A</code>, <code>B</code>, <code>C</code>, and so on. <u>The following steps will produce a string of tokens in postfix order.</u></p>
+</blockquote>
+
+<ol>
+<li><p>Create an empty stack called <code>opstack</code> for keeping operators. Create an empty list for output.</p></li>
+
+<li><p>Convert the input infix string to a list by using the string method split.</p></li>
+
+<li><p>Scan the token list from left to right.</p>
+
+<ul>
+<li><p>If the token is an operand, append it to the end of the output list.</p></li>
+
+<li><p>If the token is a left parenthesis, push it on the <code>opstack</code>.</p></li>
+
+<li><p>If the token is a right parenthesis, pop the <code>opstack</code> until the corresponding left parenthesis <u>is removed.</u> Append each operator to the end of the output list.</p></li>
+
+<li><p>If the token is an operator, <code>*</code>, <code>/</code>, <code>+</code>, or <code>-</code>, push it on the <code>opstack</code>. However, first remove any operators already on the <code>opstack</code> that <u>have higher or equal precedence</u> ( pop them until an operator’s precedence less than the operator ) and append them to the output list.</p></li>
+</ul></li>
+
+<li><p>When the input expression has been completely processed, check the <code>opstack</code>. Any operators still on the stack can be removed and appended to the end of the output list.</p></li>
+</ol>
+
+<p><img src="images/Infix-to-Postfix/intopost.png" alt="" /></p>
+
+<p>优先级：</p>
+
+<p>“(“ : 1</p>
+
+<p>“-“ or “+” : 2</p>
+
+<p>“*” or “/“ : 3</p>
+
+<h2 id="postfix-evaluation">Postfix Evaluation</h2>
+
+<p>As you scan the postfix expression, it is the operands that must wait, not the operators as in the conversion algorithm above. Another way to think about the solution is that <u>whenever an operator is seen on the input, the two most recent operands will be used in the evaluation.</u></p>
+
+<p>To see this in more detail, consider the postfix expression <code>4 5 6 * +</code>. As you scan the expression from left to right, you first encounter the operands 4 and 5. At this point, you are still unsure what to do with them until you see the next symbol. <u>Placing each on the stack ensures that they are available if an operator comes next.</u></p>
+
+<p>In this case, the next symbol is another operand. So, as before, push it and check the next symbol. Now we see an operator, *. <u>This means that the two most recent operands need to be used in a multiplication operation.</u> By popping the stack twice, we can get the proper operands and then perform the multiplication (in this case getting the result 30).</p>
+
+<p>We can now handle this result by placing it back on the stack so that it can be used as an operand for the later operators in the expression. When the final operator is processed, there will be only one value left on the stack. Pop and return it as the result of the expression. Figure below shows the stack contents as this entire example expression is being processed.</p>
+
+<p><img src="https://sunxichen.github.io/images/Infix-to-Postfix/evalpostfix1.png" alt="" /></p>
+
+<ol>
+<li><p>Create an empty stack called operandStack.</p></li>
+
+<li><p>Convert the string to a list by using the string method split.</p></li>
+
+<li><p>Scan the token list from left to right.</p>
+
+<ul>
+<li><p>If the token is an operand, convert it from a string to an integer and push the value onto the operandStack.</p></li>
+
+<li><p>If the token is an operator, <code>*</code>, <code>/</code>, <code>+</code>, or <code>-</code>, it will need two operands. Pop the operandStack twice. The first pop is the second operand and the second pop is the first operand. ( Pay special attention to <code>/</code>) Perform the arithmetic operation. Push the result back on the operandStack.</p></li>
+</ul></li>
+
+<li><p>When the input expression has been completely processed, the result is on the stack. Pop the operandStack and return the value.</p></li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//Infix expression to Postfix expression
+</span><span style="color:#75715e"></span>
+<span style="color:#f92672">import</span> edu.princeton.cs.algs4.*<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">InfixtoPostfix</span>
+<span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getPriority</span><span style="color:#f92672">(</span>String s<span style="color:#f92672">){</span>
+		<span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;(&#34;</span><span style="color:#f92672">))</span>
+			<span style="color:#66d9ef">return</span> 1<span style="color:#f92672">;</span>
+		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;+&#34;</span><span style="color:#f92672">)||</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-&#34;</span><span style="color:#f92672">))</span>
+			<span style="color:#66d9ef">return</span> 2<span style="color:#f92672">;</span>
+		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;*&#34;</span><span style="color:#f92672">)||</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">))</span>
+			<span style="color:#66d9ef">return</span> 3<span style="color:#f92672">;</span>
+		<span style="color:#66d9ef">return</span> 0<span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
+
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span> String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
+
+		Stack<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> operator <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stack<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;();</span>
+		<span style="color:#66d9ef">while</span><span style="color:#f92672">(</span> <span style="color:#f92672">!</span>StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">()){</span>
+			String s <span style="color:#f92672">=</span> StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">readString</span><span style="color:#f92672">();</span>
+			<span style="color:#66d9ef">if</span><span style="color:#f92672">(</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;(&#34;</span><span style="color:#f92672">))</span>
+				operator<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+			<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;+&#34;</span><span style="color:#f92672">)){</span>
+				<span style="color:#66d9ef">while</span><span style="color:#f92672">((!</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">())</span> <span style="color:#f92672">&amp;&amp;</span> getPriority<span style="color:#f92672">(</span>s<span style="color:#f92672">)&lt;=</span>getPriority<span style="color:#f92672">(</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">peek</span><span style="color:#f92672">())){</span>
+					StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+				<span style="color:#f92672">}</span>
+				operator<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+			<span style="color:#f92672">}</span>
+			<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-&#34;</span><span style="color:#f92672">)){</span>
+				<span style="color:#66d9ef">while</span><span style="color:#f92672">((!</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">())</span> <span style="color:#f92672">&amp;&amp;</span> getPriority<span style="color:#f92672">(</span>s<span style="color:#f92672">)&lt;=</span>getPriority<span style="color:#f92672">(</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">peek</span><span style="color:#f92672">())){</span>
+					StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+				<span style="color:#f92672">}</span>
+				operator<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+			<span style="color:#f92672">}</span>
+			<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;*&#34;</span><span style="color:#f92672">)){</span>
+				<span style="color:#66d9ef">while</span><span style="color:#f92672">((!</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">())</span> <span style="color:#f92672">&amp;&amp;</span> getPriority<span style="color:#f92672">(</span>s<span style="color:#f92672">)&lt;=</span>getPriority<span style="color:#f92672">(</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">peek</span><span style="color:#f92672">())){</span>
+					StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+				<span style="color:#f92672">}</span>
+				operator<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+			<span style="color:#f92672">}</span>
+			<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">)){</span>
+				<span style="color:#66d9ef">while</span><span style="color:#f92672">((!</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">())</span> <span style="color:#f92672">&amp;&amp;</span> getPriority<span style="color:#f92672">(</span>s<span style="color:#f92672">)&lt;=</span>getPriority<span style="color:#f92672">(</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">peek</span><span style="color:#f92672">())){</span>
+					StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+				<span style="color:#f92672">}</span>
+				operator<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+			<span style="color:#f92672">}</span>
+			<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;)&#34;</span><span style="color:#f92672">)){</span>
+				<span style="color:#66d9ef">while</span><span style="color:#f92672">((!</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">())</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">peek</span><span style="color:#f92672">().</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;(&#34;</span><span style="color:#f92672">)){</span>
+					StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+				<span style="color:#f92672">}</span>
+				operator<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">();</span>
+			<span style="color:#f92672">}</span>
+			<span style="color:#66d9ef">else</span>
+				StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>s <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+		<span style="color:#f92672">}</span>
+		<span style="color:#66d9ef">while</span><span style="color:#f92672">(!</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">()){</span>
+			StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>operator<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">);</span>
+		<span style="color:#f92672">}</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
+  </article>
+
+  <br/>
+
+  
+  
+</section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+     © 2018    ·  Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>. 
+  </section>
+</footer>
+
+    </main>
+
+    
+
+  </body>
+
+</html>

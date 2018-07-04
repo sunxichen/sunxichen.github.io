@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Sun Xichen">
+    <meta name="description" content="Sunxichen&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://sunxichen.github.io">
+    <title>
+  Union-find · Sun Xichen&#39;s site
+</title>
+
+    <link rel="canonical" href="https://sunxichen.github.io/posts/union-find/">
+
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono:400,700">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="https://sunxichen.github.io/css/style.min.css">
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://sunxichen.github.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sunxichen.github.io/images/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.42.2" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://sunxichen.github.io">
+      Sun Xichen&#39;s site
+    </a>
+    
+    <ul class="navigation-list  float-right ">
+      
+      <li class="navigation-item">
+        <a class="navigation-link" href="https://sunxichen.github.io/posts/">Blog</a>
+      </li>
+      
+      <li class="navigation-item">
+        <a class="navigation-link" href="https://sunxichen.github.io/about/">About</a>
+      </li>
+      
+    </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+  <article>
+    <header>
+      <h1 class="title">Union-find</h1>
+      <h2 class="date">April 8, 2018</h2>
+
+      
+    </header>
+
+    
+
+<h1 id="union-find">Union-find</h1>
+
+<p>问题引入：输入是一系列整型数字对。(p,q) 意思为p与q相连。它具有如下性质:</p>
+
+<ul>
+<li>反身性( Reflexive )：p与p自己也相连。</li>
+<li>对称性( Symmetric )：p与q相连，同时q也与p相连。</li>
+<li>传递性( Transitive )：p与q相连，q与r相连，那么p与r相连。</li>
+</ul>
+
+<p>当两个对象相连时，则他们就属于同一类( equivalence class )。我们的目标是区分出来没有关系的那些数值对( pairs )</p>
+
+<p>To achieve the desired goal, we need to devise a data structure that can remember sufficient information about the pairs it has seen to be able to decide whether or not a new pair of objects is connected. This task is called <em>dynamic connectivity</em>.</p>
+
+<p>Dynamic connectivity可以有一下的几种用途：</p>
+
+<ul>
+<li>Networks: 这些实数对可以代表一些在大型网络中相连的计算机，所以我们可以通过程序来决定是否需要架设新的线路来实现p和q之间的信息交流（如果p和q相连则不用架设新的线路）。或者，这些实数对代表在社交网络中的人，(p,q)代表着friendship.</li>
+<li><em>Mathematical sets</em>: 在更抽象的层面上，我们可以将这些数值归于数学集合。当我们处理(p,q)时，我们实际上是在考虑它们是否属于同一集合里。如果p, q不在同一集合，那么我们就将两个集合合并，使它们属于同一集合。</li>
+</ul>
+
+<p><img src="https://sunxichen.github.io/images/union-find-images/dynamic-connectivity-tiny.png" alt="" /></p>
+
+<p>We refer to the objects as <em>sites</em>, the pairs as <em>connections</em>, and the equivalence classes as <em>connected components</em>
+<strong>Union-find API</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UF</span>
+	<span style="color:#a6e22e">UF</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> N<span style="color:#f92672">)</span>		<span style="color:#75715e">//initialize N sites with integer names (0 to N-1)
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">union</span><span style="color:#f92672">(</span> <span style="color:#66d9ef">int</span> p<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> q<span style="color:#f92672">)</span> <span style="color:#75715e">//merge two components if the two sites are in different components( add connections between p and q )
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">find</span><span style="color:#f92672">(</span> <span style="color:#66d9ef">int</span> p <span style="color:#f92672">)</span> <span style="color:#75715e">//returns an integer component identifier for a given site
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">connected</span><span style="color:#f92672">(</span> <span style="color:#66d9ef">int</span> p<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> q<span style="color:#f92672">)</span>	<span style="color:#75715e">//determines whether two sites are in the same components.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">count</span><span style="color:#f92672">()</span> <span style="color:#75715e">//returns the number of components.
+</span><span style="color:#75715e"></span><span style="color:#75715e">/*
+</span><span style="color:#75715e">	We start with N components, and each union() that merge two components decrements the number of components by 1.
+</span><span style="color:#75715e">*/</span></code></pre></div>
+<p><strong>Implementation</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UF</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> id<span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> N<span style="color:#f92672">;</span>
+
+	<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">UF</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> N<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">N</span> <span style="color:#f92672">=</span> N<span style="color:#f92672">;</span>
+		id <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span>N<span style="color:#f92672">];</span>
+		<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span> i<span style="color:#f92672">&lt;</span>N<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+			id<span style="color:#f92672">[</span>i<span style="color:#f92672">]=</span>i<span style="color:#f92672">;</span>
+		<span style="color:#f92672">}</span>
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">count</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">return</span> N<span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
+
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">connected</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> q<span style="color:#f92672">){</span>
+		<span style="color:#66d9ef">return</span> find<span style="color:#f92672">(</span>p<span style="color:#f92672">)</span> <span style="color:#f92672">==</span> find<span style="color:#f92672">(</span>q<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">find</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">){}</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">union</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> q<span style="color:#f92672">){}</span>
+
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">readInt</span><span style="color:#f92672">();</span>
+		UF uf <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> UF<span style="color:#f92672">(</span>N<span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">while</span><span style="color:#f92672">(!</span>StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">()){</span>
+			<span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">readInt</span><span style="color:#f92672">();</span>
+			<span style="color:#66d9ef">int</span> q <span style="color:#f92672">=</span> StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">readInt</span><span style="color:#f92672">();</span>
+			<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>uf<span style="color:#f92672">.</span><span style="color:#a6e22e">connected</span><span style="color:#f92672">(</span>p<span style="color:#f92672">,</span>q<span style="color:#f92672">))</span> <span style="color:#66d9ef">continue</span><span style="color:#f92672">;</span>
+			uf<span style="color:#f92672">.</span><span style="color:#a6e22e">union</span><span style="color:#f92672">(</span>p<span style="color:#f92672">,</span>q<span style="color:#f92672">);</span>
+			StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>p <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> q<span style="color:#f92672">);</span>
+		<span style="color:#f92672">}</span>
+		StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>uf<span style="color:#f92672">.</span><span style="color:#a6e22e">count</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; components&#34;</span><span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
+<p><em>Quick-find</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">find</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">){</span>
+		<span style="color:#66d9ef">return</span> id<span style="color:#f92672">[</span>p<span style="color:#f92672">];</span>
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">union</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> q<span style="color:#f92672">){</span>
+		<span style="color:#66d9ef">int</span> pID <span style="color:#f92672">=</span> find<span style="color:#f92672">(</span>p<span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">int</span> qID <span style="color:#f92672">=</span> find<span style="color:#f92672">(</span>q<span style="color:#f92672">);</span>
+
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>pID <span style="color:#f92672">==</span> qID<span style="color:#f92672">)</span>	<span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+
+		<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span> i<span style="color:#f92672">&lt;</span>id<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>i<span style="color:#f92672">++){</span>
+			<span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>id<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">==</span> pID<span style="color:#f92672">)</span>	id<span style="color:#f92672">[</span>i<span style="color:#f92672">]==</span>pID<span style="color:#f92672">;</span>
+		<span style="color:#f92672">}</span>
+		N<span style="color:#f92672">--;</span>
+	<span style="color:#f92672">}</span></code></pre></div>
+<p>因为find()只访问一次数组，所以叫做quick-find.
+算法思想: id[p]代表着p所在的component, union()的时候，遍历数组，将所有component值等于pID的节点都改为qID.</p>
+
+<p><em>Quick-Union</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">find</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">){</span>
+		<span style="color:#66d9ef">while</span><span style="color:#f92672">(</span>p<span style="color:#f92672">!=</span>id<span style="color:#f92672">[</span>p<span style="color:#f92672">])</span> p<span style="color:#f92672">=</span>id<span style="color:#f92672">[</span>p<span style="color:#f92672">];</span>
+		<span style="color:#66d9ef">return</span> p<span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">union</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> q<span style="color:#f92672">){</span>
+		<span style="color:#66d9ef">int</span> pRoot <span style="color:#f92672">=</span> find<span style="color:#f92672">(</span>p<span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">int</span> qRoot <span style="color:#f92672">=</span> find<span style="color:#f92672">(</span>q<span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>pRoot <span style="color:#f92672">==</span> qRoot<span style="color:#f92672">)</span>	<span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+
+		id<span style="color:#f92672">[</span>pRoot<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> qRoot<span style="color:#f92672">;</span>
+		N<span style="color:#f92672">--;</span>
+	<span style="color:#f92672">}</span></code></pre></div>
+<p>算法思想：Specifically, the id[] entry for each site is the name of another site in the same component (possibly itself)&ndash;we refer to this connection as a <em>link</em>. We start at the given site, follow its link to another site, follow that site’s link to yet another site, and so forth, following links until reaching a <em>root</em>, a site that has a link to itself. _Two sites are in the same component if only if this process leads them to the same root. To union, we follow links to find the roots associated with p and q, then rename one of the components by linking one of these roots to the other.</p>
+
+<p><em>Weighted quick-union</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UF</span> <span style="color:#f92672">{</span>
+	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> id<span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> sz<span style="color:#f92672">;</span>
+	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> N<span style="color:#f92672">;</span>
+
+	<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">UF</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> N<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">N</span> <span style="color:#f92672">=</span> N<span style="color:#f92672">;</span>
+		id <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span>N<span style="color:#f92672">];</span>
+		sz <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span>N<span style="color:#f92672">];</span>
+		<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span> i<span style="color:#f92672">&lt;</span>N<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+			id<span style="color:#f92672">[</span>i<span style="color:#f92672">]=</span>i<span style="color:#f92672">;</span>
+			sz<span style="color:#f92672">[</span>i<span style="color:#f92672">]=</span>1<span style="color:#f92672">;</span>
+		<span style="color:#f92672">}</span>
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">count</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">return</span> N<span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
+
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">connected</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> q<span style="color:#f92672">){</span>
+		<span style="color:#66d9ef">return</span> find<span style="color:#f92672">(</span>p<span style="color:#f92672">)</span> <span style="color:#f92672">==</span> find<span style="color:#f92672">(</span>q<span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">find</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">){</span>
+		<span style="color:#66d9ef">while</span><span style="color:#f92672">(</span>p<span style="color:#f92672">!=</span>id<span style="color:#f92672">[</span>p<span style="color:#f92672">])</span> p<span style="color:#f92672">=</span>id<span style="color:#f92672">[</span>p<span style="color:#f92672">];</span>
+		<span style="color:#66d9ef">return</span> p<span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">union</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> q<span style="color:#f92672">){</span>
+		<span style="color:#66d9ef">int</span> pRoot <span style="color:#f92672">=</span> find<span style="color:#f92672">(</span>p<span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">int</span> qRoot <span style="color:#f92672">=</span> find<span style="color:#f92672">(</span>q<span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>pRoot <span style="color:#f92672">==</span> qRoot<span style="color:#f92672">)</span>	<span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+
+		<span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>sz<span style="color:#f92672">[</span>pRoot<span style="color:#f92672">]&lt;</span>sz<span style="color:#f92672">[</span>qRoot<span style="color:#f92672">]){</span> id<span style="color:#f92672">[</span>pRoot<span style="color:#f92672">]=</span>qRoot<span style="color:#f92672">;</span> sz<span style="color:#f92672">[</span>qRoot<span style="color:#f92672">]+=</span>sz<span style="color:#f92672">[</span>pRoot<span style="color:#f92672">];}</span>
+		<span style="color:#66d9ef">else</span>	<span style="color:#f92672">{</span> id<span style="color:#f92672">[</span>qRoot<span style="color:#f92672">]=</span>pRoot<span style="color:#f92672">;</span> sz<span style="color:#f92672">[</span>pRoot<span style="color:#f92672">]+=</span>sz<span style="color:#f92672">[</span>qRoot<span style="color:#f92672">];}</span>
+		N<span style="color:#f92672">--;</span>
+	<span style="color:#f92672">}</span>
+
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+		<span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">readInt</span><span style="color:#f92672">();</span>
+		UF uf <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> UF<span style="color:#f92672">(</span>N<span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">while</span><span style="color:#f92672">(!</span>StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">()){</span>
+			<span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">readInt</span><span style="color:#f92672">();</span>
+			<span style="color:#66d9ef">int</span> q <span style="color:#f92672">=</span> StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">readInt</span><span style="color:#f92672">();</span>
+			<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>uf<span style="color:#f92672">.</span><span style="color:#a6e22e">connected</span><span style="color:#f92672">(</span>p<span style="color:#f92672">,</span>q<span style="color:#f92672">))</span> <span style="color:#66d9ef">continue</span><span style="color:#f92672">;</span>
+			uf<span style="color:#f92672">.</span><span style="color:#a6e22e">union</span><span style="color:#f92672">(</span>p<span style="color:#f92672">,</span>q<span style="color:#f92672">);</span>
+			StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>p <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> q<span style="color:#f92672">);</span>
+		<span style="color:#f92672">}</span>
+		StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>uf<span style="color:#f92672">.</span><span style="color:#a6e22e">count</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; components&#34;</span><span style="color:#f92672">);</span>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span></code></pre></div>
+<p>算法思想：在合并地时候，我们并不是像quick-union那样任意选择合并方向，而是总是将较小的树合并到较大的树上。所以需要一个数组sz[]来记录数的大小。该数的大小有根节点保存，即sz[root] = size.</p>
+
+<p><em>Weighted quick union with path compression</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">find</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">){</span>
+		<span style="color:#66d9ef">int</span> root <span style="color:#f92672">=</span> p<span style="color:#f92672">;</span>
+		<span style="color:#66d9ef">while</span><span style="color:#f92672">(</span>root <span style="color:#f92672">!=</span> id<span style="color:#f92672">[</span>root<span style="color:#f92672">])</span> <span style="color:#75715e">//寻找点p的root
+</span><span style="color:#75715e"></span>			root <span style="color:#f92672">=</span> id<span style="color:#f92672">[</span>root<span style="color:#f92672">];</span>
+		<span style="color:#66d9ef">while</span><span style="color:#f92672">(</span>p <span style="color:#f92672">!=</span> root<span style="color:#f92672">){</span>	<span style="color:#75715e">//将p-&gt;root这个过程中遇到的所有点(即p的parent, grandparent...)的parent改为root
+</span><span style="color:#75715e"></span>			<span style="color:#66d9ef">int</span> newp <span style="color:#f92672">=</span> id<span style="color:#f92672">[</span>p<span style="color:#f92672">];</span>
+			id<span style="color:#f92672">[</span>p<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> root<span style="color:#f92672">;</span> <span style="color:#75715e">//将p的parent改为root
+</span><span style="color:#75715e"></span>			p <span style="color:#f92672">=</span> newp<span style="color:#f92672">;</span> <span style="color:#75715e">//p移向p的parent
+</span><span style="color:#75715e"></span>		<span style="color:#f92672">}</span>
+		<span style="color:#66d9ef">return</span> root<span style="color:#f92672">;</span>
+	<span style="color:#f92672">}</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">union</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> q<span style="color:#f92672">){</span>
+		<span style="color:#66d9ef">int</span> pRoot <span style="color:#f92672">=</span> find<span style="color:#f92672">(</span>p<span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">int</span> qRoot <span style="color:#f92672">=</span> find<span style="color:#f92672">(</span>q<span style="color:#f92672">);</span>
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>pRoot <span style="color:#f92672">==</span> qRoot<span style="color:#f92672">)</span>	<span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+
+		<span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>sz<span style="color:#f92672">[</span>pRoot<span style="color:#f92672">]&lt;</span>sz<span style="color:#f92672">[</span>qRoot<span style="color:#f92672">]){</span> id<span style="color:#f92672">[</span>pRoot<span style="color:#f92672">]=</span>qRoot<span style="color:#f92672">;</span> sz<span style="color:#f92672">[</span>qRoot<span style="color:#f92672">]+=</span>sz<span style="color:#f92672">[</span>pRoot<span style="color:#f92672">];}</span>
+		<span style="color:#66d9ef">else</span>	<span style="color:#f92672">{</span> id<span style="color:#f92672">[</span>qRoot<span style="color:#f92672">]=</span>pRoot<span style="color:#f92672">;</span> sz<span style="color:#f92672">[</span>pRoot<span style="color:#f92672">]+=</span>sz<span style="color:#f92672">[</span>qRoot<span style="color:#f92672">];}</span>
+		N<span style="color:#f92672">--;</span>
+	<span style="color:#f92672">}</span></code></pre></div>
+<p><strong>WQUPC</strong>算法思想：
+Ideally, we would like every node to link directly to the root of its tree.
+Note that, id is a forest, id[I] is the parent of i. If id[i]=i, it means that i is a root.</p>
+
+<p><strong>Analysis</strong></p>
+
+<p><strong><em>Quick-find</em></strong>:</p>
+
+<p>每个find()访问一次数组，每个union()访问N+3~2N+1次数组
+每个union()先调用两次find(), 两次访问。遍历数组，访问N次。然后改变数组的值，要写数组1~N-1次。
+所以对于一个有N对的问题集，如果我们以单一component结束的话，至少要调用N-1次union(), 于是dynamic connectivity with quick-find can be quadratic-time process.</p>
+
+<p><strong><em>Quick-union</em></strong>:</p>
+
+<p>Definition: The <em>size</em> of a tree is its number of nodes. The <em>depth</em> of a node in a tree is the number of links on the path from it to the root. The <em>height</em> of a tree is the maximum depth among its nodes.</p>
+
+<p>The number of array accesses used by find() is 1 plus the twice the depth of the node corresponding to the given site.(Immediate from code) The number of array accesses used by union() and connected() is the cost of the two find() operations.(plus 1 for union() if the given sites are in different trees)</p>
+
+<p><strong><em>Weighted quick-union</em></strong>:
+对于Quick-union，由于合并树的方向是任意的，可能会导致树过高，在一些情况下算法的时间复杂度并不一定比quick-find优秀。所以提出了改进的Weighted quick-union.</p>
+
+<p>The weighted algorithm can guarantee logarithmic performance.</p>
+
+<p><strong>Proposition</strong>. The depth of any node in a forest built by weighted quick-union for N sites is at most lg N.</p>
+
+<p><strong>Proof</strong>: 归纳法.</p>
+
+<p><img src="https://sunxichen.github.io/images/union-find-images/IMG_20180318_141018.jpg" alt="" /></p>
+
+<p><strong>Corollary</strong>.</p>
+
+<p>For weighted quick-union with N sites, the worst-case order of growth of the cost of find(), connected(), and union() is log N.</p>
+
+<p><strong>Summary</strong>:</p>
+
+<p><img src="https://sunxichen.github.io/images/union-find-images/screenshot.png" alt="" /></p>
+
+<p>WQUPC is very close to the best that we can do for this problem.</p>
+
+  </article>
+
+  <br/>
+
+  
+  
+</section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+     © 2018    ·  Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>. 
+  </section>
+</footer>
+
+    </main>
+
+    
+
+  </body>
+
+</html>

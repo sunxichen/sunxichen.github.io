@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Sun Xichen">
+    <meta name="description" content="Sunxichen&#39;s personal website">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <base href="https://sunxichen.github.io">
+    <title>
+  欧几里得算法及其扩展算法 · Sun Xichen&#39;s site
+</title>
+
+    <link rel="canonical" href="https://sunxichen.github.io/posts/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/">
+
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono:400,700">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="https://sunxichen.github.io/css/style.min.css">
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://sunxichen.github.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sunxichen.github.io/images/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.42.2" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://sunxichen.github.io">
+      Sun Xichen&#39;s site
+    </a>
+    
+    <ul class="navigation-list  float-right ">
+      
+      <li class="navigation-item">
+        <a class="navigation-link" href="https://sunxichen.github.io/posts/">Blog</a>
+      </li>
+      
+      <li class="navigation-item">
+        <a class="navigation-link" href="https://sunxichen.github.io/about/">About</a>
+      </li>
+      
+    </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+  <article>
+    <header>
+      <h1 class="title">欧几里得算法及其扩展算法</h1>
+      <h2 class="date">April 10, 2018</h2>
+
+      
+    </header>
+
+    <p>欧几里德算法是用来求两个正整数最大公约数的算法。是由古希腊数学家欧几里德在其著作《The Elements》中最早描述了这种算法,所以被命名为欧几里德算法。
+扩展欧几里德算法可用于RSA加密等领域。
+假如需要求 1997 和 615 两个正整数的最大公约数,用欧几里德算法，是这样进行的：</p>
+
+<p><img src="https://sunxichen.github.io/images/Extended-Euclidean-algorithm/screenshot1.png" alt="" /></p>
+
+<p>当被加的数为 0 时，就得出了 1997 和 615 的最大公约数 1。</p>
+
+<p>gcd(a,b)=gcd(b,a%b)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">gcd</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> a<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> b<span style="color:#f92672">){</span>
+    <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>a<span style="color:#f92672">%</span>b<span style="color:#f92672">==</span>0<span style="color:#f92672">)</span><span style="color:#75715e">//或者（b==0) return a;
+</span><span style="color:#75715e"></span>    	<span style="color:#66d9ef">return</span> b<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">else</span>
+      <span style="color:#66d9ef">return</span> gcd<span style="color:#f92672">(</span>b<span style="color:#f92672">,</span>a<span style="color:#f92672">%</span>b<span style="color:#f92672">);</span>
+  <span style="color:#f92672">}</span></code></pre></div>
+<p><img src="https://sunxichen.github.io/images/Extended-Euclidean-algorithm/screenshot2.png" alt="" /></p>
+
+<p><img src="https://sunxichen.github.io/images/Extended-Euclidean-algorithm/screenshot3.png" alt="" /></p>
+
+<p><img src="https://sunxichen.github.io/images/Extended-Euclidean-algorithm/screenshot4.png" alt="" /></p>
+
+<p>用扩展的欧几里得算法知识求解了线性组合的一个组合(x,y)</p>
+
+  </article>
+
+  <br/>
+
+  
+  
+</section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+     © 2018    ·  Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>. 
+  </section>
+</footer>
+
+    </main>
+
+    
+
+  </body>
+
+</html>
