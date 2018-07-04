@@ -96,15 +96,6 @@ Insertion sort public class Insertion{ public static void sort(Comparable[] a){ 
     </item>
     
     <item>
-      <title>Test</title>
-      <link>https://sunxichen.github.io/posts/test/</link>
-      <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://sunxichen.github.io/posts/test/</guid>
-      <description>Test</description>
-    </item>
-    
-    <item>
       <title>十进制向各进制的转换</title>
       <link>https://sunxichen.github.io/posts/%E5%8D%81%E8%BF%9B%E5%88%B6%E5%90%91%E5%90%84%E8%BF%9B%E5%88%B6%E7%9A%84%E8%BD%AC%E6%8D%A2/</link>
       <pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate>
