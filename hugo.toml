@@ -1,0 +1,77 @@
+baseURL = "https://sunxichen.github.io/"
+locale = "zh-CN"
+defaultContentLanguage = "zh-cn"
+title = "sunxichen's blog"
+theme = "PaperMod"
+
+enableRobotsTXT = true
+hasCJKLanguage = true
+pagerSize = 20
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[markup]
+  [markup.goldmark.extensions.passthrough]
+    enable = true
+    [markup.goldmark.extensions.passthrough.delimiters]
+      block = [["\\[", "\\]"], ["$$", "$$"]]
+      inline = [["\\(", "\\)"], ["$", "$"]]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    noClasses = false
+    codeFences = true
+    guessSyntax = true
+
+[params]
+  env = "production"
+  title = "sunxichen's blog"
+  description = "Notes on LLM algorithms"
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowToc = true
+  TocOpen = false
+  ShowCodeCopyButtons = true
+  ShowBreadCrumbs = true
+  ShowPostNavLinks = true
+  ShowWordCount = false
+  ShowShareButtons = false
+  disableSpecial1stPost = true
+
+  [params.fuseOpts]
+    isCaseSensitive = false
+    shouldSort = true
+    location = 0
+    distance = 1000
+    threshold = 0.4
+    minMatchCharLength = 1
+    keys = ["title", "permalink", "summary", "content"]
+
+[[menu.main]]
+  identifier = "categories"
+  name = "项目"
+  url = "/categories/"
+  weight = 10
+
+[[menu.main]]
+  identifier = "tags"
+  name = "标签"
+  url = "/tags/"
+  weight = 20
+
+[[menu.main]]
+  identifier = "archives"
+  name = "归档"
+  url = "/archives/"
+  weight = 30
+
+[[menu.main]]
+  identifier = "search"
+  name = "搜索"
+  url = "/search/"
+  weight = 40
